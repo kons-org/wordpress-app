@@ -6,7 +6,5 @@ jobs:
     steps:
       - name: Get code
         uses: actions/checkout@v3
-      - name: Install docker
-        uses: docker/setup-docker-action@v4
       - name: Build image
         run: docker build -t wordpress-app:latest .
