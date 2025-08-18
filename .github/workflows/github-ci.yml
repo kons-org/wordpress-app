@@ -1,10 +1,10 @@
-name: First Workflow
+name: Build Wordpress Container
 on: push
 jobs:
-  first-job:
+  build:
     runs-on: self-hosted
     steps:
-      - name: Print greeting
-        run: echo "Hello World!"
-      - name: Print goodbye
-        run: echo "Done - Bye!"
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Build image
+        run: docker build -t wordpress-app:latest .
