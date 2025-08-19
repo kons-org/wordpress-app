@@ -7,13 +7,13 @@ jobs:
       - name: Get code
         uses: actions/checkout@v3
       - name: Build image 
-        run: docker build -t wordpress-app:2 .
+        run: docker build -t wordpress-app:${{github.run_number}} .
       - name: push to AWS ECR
         run: |
           export AWS_ACCESS_KEY_ID=AKIAVJDXI67VVU3KRCZ3
           export AWS_SECRET_ACCESS_KEY=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
           export AWS_DEFAULT_REGION=eu-north-1
           aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 363174885355.dkr.ecr.eu-north-1.amazonaws.com
-          docker tag wordpress-app:2 363174885355.dkr.ecr.eu-north-1.amazonaws.com/wordpress-app:2
-          docker push 363174885355.dkr.ecr.eu-north-1.amazonaws.com/wordpress-app:2
+          docker tag wordpress-app:${{github.run_number}} 363174885355.dkr.ecr.eu-north-1.amazonaws.com/wordpress-app:${{github.run_number}}
+          docker push 363174885355.dkr.ecr.eu-north-1.amazonaws.com/wordpress-app:${{github.run_number}}
       
