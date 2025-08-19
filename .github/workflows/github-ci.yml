@@ -11,7 +11,7 @@ jobs:
       - name: Save image tag
         run: echo "image_tag=${{github.run_number}}" > image_tag.txt
       - name: Upload artifact
-        uses: actiond/upload-artifact@v4
+        uses: actions/upload-artifact@v4
         with: 
           name: image_tag 
           path: image_tag.txt
