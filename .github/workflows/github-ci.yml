@@ -16,4 +16,19 @@ jobs:
           aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 363174885355.dkr.ecr.eu-north-1.amazonaws.com
           docker tag wordpress-app:${{github.run_number}} 363174885355.dkr.ecr.eu-north-1.amazonaws.com/wordpress-app:${{github.run_number}}
           docker push 363174885355.dkr.ecr.eu-north-1.amazonaws.com/wordpress-app:${{github.run_number}}
+  deploy:
+    needs: build
+    runs-on: self-hosted
+    steps:
+      - name: Get code 
+        uses: actions/checkout@v3  
+        with: 
+          repository: konbusalov/wordpress-app-deployment
+          path: master
+      - name: Run containers
+        run: |
+          docker-compose down 
+          docker system prune -a -f 
+          docker-compose up -d
+
       
