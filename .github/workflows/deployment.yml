@@ -35,7 +35,7 @@ jobs:
           if [[ $(git status --porcelain | wc -l) -gt 0 ]]; then
             git config --global user.name "Deployment [bot]"
             git config --global user.email "konbusalov@gmail.com"
-            git commit -m "Updated docker-compose image tag to $IMAGE_TAG"
+            git commit -m "Updated docker-compose.yml image tag to $IMAGE_TAG"
             git push
           else 
             echo "No changes to commit"
