@@ -12,10 +12,11 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: image_tag
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: ${{ github.event.workflow_run.id }}
       - name: Extract image tag from artifact
         run: | 
           IMAGE_TAG=$(cat image_tag.txt) 
           echo "Image tag: $IMAGE_TAG"
 
-#hello
+#hello  
