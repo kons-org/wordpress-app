@@ -10,13 +10,13 @@ jobs:
         #run: docker build -t wordpress-app:${{github.run_number}} .
         run: echo "..."
       - name: Save image tag
-        #run: echo "${{github.run_number}}" > image_tag.txt
+        run: echo "${{github.run_number}}" > image_tag.txt
         run: echo "..."
-      #- name: Upload artifact
-        #uses: actions/upload-artifact@v4
-        #with: 
-        #  name: image_tag 
-        #  path: image_tag.txt
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with: 
+          name: image_tag 
+          path: image_tag.txt
       # - name: push to AWS ECR
         # run: |
         #   export AWS_ACCESS_KEY_ID=AKIAVJDXI67VVU3KRCZ3
