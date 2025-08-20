@@ -9,7 +9,7 @@ jobs:
       - name: Build image 
         run: docker build -t wordpress-app:${{github.run_number}} .
       - name: Save image tag
-        run: echo "image_tag=${{github.run_number}}" > image_tag.txt
+        run: echo "${{github.run_number}}" > image_tag.txt
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with: 
@@ -23,6 +23,8 @@ jobs:
           aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 363174885355.dkr.ecr.eu-north-1.amazonaws.com
           docker tag wordpress-app:${{github.run_number}} 363174885355.dkr.ecr.eu-north-1.amazonaws.com/wordpress-app:${{github.run_number}}
           docker push 363174885355.dkr.ecr.eu-north-1.amazonaws.com/wordpress-app:${{github.run_number}}
+      - name: Clean up images
+        run: docker rmi -f $(docker images -q --filter "reference=*wordpress*")
   # deploy:
   #   needs: build
   #   runs-on: self-hosted

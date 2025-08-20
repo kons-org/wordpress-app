@@ -5,7 +5,7 @@ on:
     types:
       - completed
 jobs:
-  test:
+  change_image_tag:
     runs-on: self-hosted
     permissions:
       actions: read
@@ -20,5 +20,21 @@ jobs:
         run: | 
           IMAGE_TAG=$(cat image_tag.txt) 
           echo "Image tag: $IMAGE_TAG"
-
-#hello  
+      - name: Get code from deployment repository
+        uses: actions/checkout@v4
+        with: 
+          repository: 'konbusalov/wordpress-app-deployment'
+          path: 'deployment_repo'
+          token: ${{ sercrets.BOT_TOKEN }}
+          persist-credentials: true
+      - name: Edit docker-compose.yml
+        run: |
+          cd deployment_repo
+          sed -i 's#363174885355.dkr.ecr.eu-north-1.amazonaws.com/wordpress-app:[0-9]+$#363174885355.dkr.ecr.eu-north-1.amazonaws.com/wordpress-app:$IMAGE_TAG#' docker-compose.yml
+          git add docker-compose.yml
+          git status --porcelain | wc -l
+          if [[ $(git status --porcelain | wc -l) -gt 0 ]]; then
+            git config --global user.name "Deployment [bot]"
+            git config --global user.email "konbusalov@gmail.com"
+            git commit -m "Updated docker-compose.yml image tag to $IMAGE_TAG"
+            git push
