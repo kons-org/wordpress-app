@@ -17,3 +17,5 @@ jobs:
         run: | 
           IMAGE_TAG=$(cat image_tag.txt) 
           echo "Image tag: $IMAGE_TAG"
+
+#hello
