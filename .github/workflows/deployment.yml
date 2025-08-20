@@ -1,5 +1,9 @@
 name: Deploy Wordpress App
-on: push 
+on:
+  workflow_run:
+    workflows: [Build Wordpress Container]
+    types:
+      - completed
 jobs:
   test:
     runs-on: self-hosted
@@ -8,9 +12,6 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: image_tag
-          workflow: build.yml
-          workflow_conclusion: success
-          branch: main
       - name: Extract image tag from artifact
         run: | 
           IMAGE_TAG=$(cat image_tag.txt) 
