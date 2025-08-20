@@ -25,7 +25,7 @@ jobs:
         with: 
           repository: 'konbusalov/wordpress-app-deployment'
           path: 'deployment_repo'
-          token: ${{ sercrets.BOT_TOKEN }}
+          token: ${{ secrets.BOT_TOKEN }}
           persist-credentials: true
       - name: Edit docker-compose.yml
         run: |
