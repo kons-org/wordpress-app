@@ -29,7 +29,9 @@ jobs:
         run: |
           echo "The image tag is: $IMAGE_TAG"
           cd deployment_repo
+          ls -a
           sed -i 's#363174885355.dkr.ecr.eu-north-1.amazonaws.com/wordpress-app:[0-9]+$#363174885355.dkr.ecr.eu-north-1.amazonaws.com/wordpress-app:$IMAGE_TAG#' docker-compose.yml
+          cat docker-compose.yml
           git add docker-compose.yml
           git status --porcelain | wc -l
           if [[ $(git status --porcelain | wc -l) -gt 0 ]]; then
