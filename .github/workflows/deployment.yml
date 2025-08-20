@@ -17,9 +17,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: ${{ github.event.workflow_run.id }}
       - name: Extract image tag from artifact
-        run: | 
-          IMAGE_TAG=$(cat image_tag.txt) 
-          echo "Image tag: $IMAGE_TAG"
+        run: echo "IMAGE_TAG=$(cat image_tag.txt)" >> $GITHUB_ENV
       - name: Get code from deployment repository
         uses: actions/checkout@v4
         with: 
