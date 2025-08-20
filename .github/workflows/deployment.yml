@@ -7,6 +7,8 @@ on:
 jobs:
   test:
     runs-on: self-hosted
+    permissions:
+      contents: read
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v4
