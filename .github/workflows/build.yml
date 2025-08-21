@@ -6,7 +6,7 @@ jobs:
     steps:
       - name: Get code
         uses: actions/checkout@v3
-      - name: Build image 
+      - name: Build Image 
         run: docker build -t wordpress-app:${{github.run_number}} .
       - name: Save image tag
         run: echo "${{github.run_number}}" > image_tag.txt
