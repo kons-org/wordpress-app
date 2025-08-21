@@ -42,26 +42,25 @@ jobs:
           fi
 
   deploy:
+    runs-on: self-hosted
+    needs: change_image_tag
     steps:
-      - name: Get code
-        uses: actions/checkout@v4
-        with: 
-          repository: 'konbusalov/wordpress-app-deployment'
-          path: 'deployment_repo'
-          token: ${{ secrets.BOT_TOKEN }}
-          persist-credentials: true
-      - name: Add server into known_hosts
+      - name: Write SSH private key to file 
         run: |
           mkdir -p ~/.ssh
-          chmod 700 ~/.ssh  
+          echo "${{secrets.SSH_PRIVATE_KEY}}" > ~/.ssh/private_key.pem
+          chmod 400 ~/.ssh/private_key.pem
+      - name: Add server into known_hosts
+        run: |
           ssh-keyscan 13.49.212.246 >> ~/.ssh/known_hosts
-          chmod 644 ~/.ssh/known_hosts  
-          chmod 400 "${{secrets.SSH_PRIVATE_KEY}}"
-      - name: SSH into deployment server
-  run: |
-    ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@13.49.212.246 << 'EOF'
-      docker-compose down
-      docker system prune -a -f
-      docker-compose up -d
-    EOF
+          chmod 644 ~/.ssh/known_hosts
+      - name: SSH and Deploy on Server
+        run: |
+          ssh -i ~/.ssh/private_key.pem ubuntu@13.49.212.246 << 'EOF'
+            cd deployment
+            git pull origin master
+            docker-compose down
+            docker system prune -a -f
+            docker-compose up -d
+          EOF
 
