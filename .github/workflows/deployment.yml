@@ -49,7 +49,7 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           echo "${{secrets.SSH_PRIVATE_KEY}}" > ~/.ssh/private_key.pem
-          chmod 400 ~/.ssh/private_key.pem
+          chmod 600 ~/.ssh/private_key.pem
       - name: Add Server into known_hosts
         run: |
           ssh-keyscan 13.49.212.246 >> ~/.ssh/known_hosts
