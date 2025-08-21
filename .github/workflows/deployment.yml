@@ -25,7 +25,7 @@ jobs:
           path: 'deployment_repo'
           token: ${{ secrets.BOT_TOKEN }}
           persist-credentials: true
-      - name: Edit docker-compose.yml
+      - name: Edit docker-compose
         run: |
           echo "The image tag is: $IMAGE_TAG"
           cd deployment_repo
