@@ -27,7 +27,7 @@ jobs:
           persist-credentials: true
       - name: Edit docker-compose
         run: |
-          echo "The image tag is: $IMAGE_TAG"
+          echo "The Image Tag is: $IMAGE_TAG"
           cd deployment_repo
           sed -i -E "s#(image: 363174885355.dkr.ecr.eu-north-1.amazonaws.com/wordpress-app:)[0-9]+#\1$IMAGE_TAG#" docker-compose.yml
           git add docker-compose.yml
