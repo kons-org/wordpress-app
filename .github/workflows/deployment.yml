@@ -41,3 +41,24 @@ jobs:
             echo "No changes to commit"
           fi
 
+  deploy:
+    steps:
+      - name: Get code
+        uses: actions/checkout@v4
+        with: 
+          repository: 'konbusalov/wordpress-app-deployment'
+          path: 'deployment_repo'
+          token: ${{ secrets.BOT_TOKEN }}
+          persist-credentials: true
+      - name: Add server into known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh  
+          ssh-keyscan 13.49.212.246 >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts  
+          chmod 400 "${{secrets.SSH_PRIVATE_KEY}}"
+      - name: SSH into deployment server
+        run: ssh -i ${{secrets.SSH_PRIVATE_KEY}} ubuntu@13.49.212.246 "docker-compose down &&
+                                                                       docker system prune -a -f
+                                                                       docker-compose up"
+

@@ -25,19 +25,5 @@ jobs:
           docker push 363174885355.dkr.ecr.eu-north-1.amazonaws.com/wordpress-app:${{github.run_number}}
       - name: Clean up images
         run: docker rmi -f $(docker images -q --filter "reference=*wordpress*")
-  # deploy:
-  # needs: build
-  # runs-on: self-hosted
-  # steps:
-  #   - name: Get code 
-  #     uses: actions/checkout@v3  
-  #     with: 
-  #       repository: konbusalov/wordpress-app-deployment
-  #       path: master
-  #   - name: Run containers
-  #       run: |
-  #         docker-compose down 
-  #         docker system prune -a -f 
-  #         docker-compose up -d
 
       
