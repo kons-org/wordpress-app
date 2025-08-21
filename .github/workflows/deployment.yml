@@ -45,12 +45,12 @@ jobs:
     runs-on: self-hosted
     needs: change_image_tag
     steps:
-      - name: Write SSH private key to file 
+      - name: Write SSH Private Key to File 
         run: |
           mkdir -p ~/.ssh
           echo "${{secrets.SSH_PRIVATE_KEY}}" > ~/.ssh/private_key.pem
           chmod 400 ~/.ssh/private_key.pem
-      - name: Add server into known_hosts
+      - name: Add Server into known_hosts
         run: |
           ssh-keyscan 13.49.212.246 >> ~/.ssh/known_hosts
           chmod 644 ~/.ssh/known_hosts
