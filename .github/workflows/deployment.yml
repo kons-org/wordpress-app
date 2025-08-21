@@ -60,7 +60,7 @@ jobs:
             cd deployment
             git pull origin master
             docker-compose down
-            docker system prune -a -f
+            docker system prune -a -f --filter "label!=keep=true"
             docker-compose up -d
           EOF
 
