@@ -18,7 +18,7 @@ jobs:
           run-id: ${{ github.event.workflow_run.id }}
       - name: Extract Image Tag from Artifact
         run: echo "IMAGE_TAG=$(cat image_tag.txt)" >> $GITHUB_ENV
-      - name: Get code from deployment repository
+      - name: Get Code from Deployment Repository
         uses: actions/checkout@v4
         with: 
           repository: 'konbusalov/wordpress-app-deployment'
