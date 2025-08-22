@@ -29,12 +29,12 @@ jobs:
         run: |
           echo "The Image Tag is: $IMAGE_TAG"
           cd deployment_repo
-          sed -i -E "s#(image: 363174885355.dkr.ecr.eu-north-1.amazonaws.com/wordpress-app:)[0-9]+#\1$IMAGE_TAG#" docker-compose.yml
+          sed -i -E "s#(image: ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${{vars.AWS_DEFAULT_REGION}}.amazonaws.com/wordpress-app:)[0-9]+#\1$IMAGE_TAG#" docker-compose.yml
           git add docker-compose.yml
           git status --porcelain | wc -l
           if [[ $(git status --porcelain | wc -l) -gt 0 ]]; then
             git config --global user.name "Deployment [bot]"
-            git config --global user.email "konbusalov@gmail.com"
+            git config --global user.email "${{vars.EMAIL}}"
             git commit -m "Updated docker-compose.yml image tag to $IMAGE_TAG"
             git push
           else 
@@ -52,11 +52,11 @@ jobs:
           chmod 600 ~/.ssh/private_key.pem
       - name: Add Server into known_hosts
         run: |
-          ssh-keyscan 13.49.212.246 >> ~/.ssh/known_hosts
+          ssh-keyscan ${{secrets.DEPLOYMENT_SERVER_IP}} >> ~/.ssh/known_hosts
           chmod 644 ~/.ssh/known_hosts
       - name: SSH and Deploy on Server
         run: |
-          ssh -i ~/.ssh/private_key.pem ubuntu@13.49.212.246 << 'EOF'
+          ssh -i ~/.ssh/private_key.pem ubuntu@{{secrets.DEPLOYMENT_SERVER_IP}} << 'EOF'
             cd deployment
             git pull origin master
             docker-compose down
