@@ -1,7 +1,7 @@
-name: Deploy Wordpress App
+name: Deploy Wordpress App Dev
 on:
   workflow_run:
-    workflows: [Build Wordpress Container]
+    workflows: [Build Wordpress Container Dev]
     types:
       - completed
 jobs:
@@ -29,13 +29,13 @@ jobs:
         run: |
           echo "The Image Tag is: $IMAGE_TAG"
           cd deployment_repo
-          sed -i -E "s#(image: ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${{vars.AWS_DEFAULT_REGION}}.amazonaws.com/wordpress-app:)[0-9]+#\1$IMAGE_TAG#" docker-compose.yml
-          git add docker-compose.yml
+          sed -i -E "s#(image: ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${{vars.AWS_DEFAULT_REGION}}.amazonaws.com/wordpress-app:dev-)[0-9]+#\1$IMAGE_TAG#" docker-compose-dev.yml
+          git add docker-compose-dev.yml
           git status --porcelain | wc -l
           if [[ $(git status --porcelain | wc -l) -gt 0 ]]; then
             git config --global user.name "Deployment [bot]"
             git config --global user.email "${{vars.EMAIL}}"
-            git commit -m "Updated docker-compose.yml image tag to $IMAGE_TAG"
+            git commit -m "Updated docker-compose-dev.yml image tag to $IMAGE_TAG"
             git push
           else 
             echo "No changes to commit"
@@ -57,7 +57,7 @@ jobs:
       - name: SSH and Deploy on Server
         run: |
           ssh -i ~/.ssh/private_key.pem ubuntu@${{secrets.DEPLOYMENT_SERVER_IP}} << 'EOF'
-            cd deployment
+            cd wordpress-app-deployment
             git pull origin master
             ./start.sh
           EOF

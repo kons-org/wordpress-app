@@ -1,5 +1,9 @@
-name: Build Wordpress Container
-on: push
+name: Build Wordpress Container Dev
+on: 
+  push:
+    branches:
+      - development
+
 jobs:
   build:
     runs-on: self-hosted
@@ -7,7 +11,7 @@ jobs:
       - name: Get Code
         uses: actions/checkout@v3
       - name: Build Image 
-        run: docker build -t wordpress-app:${{github.run_number}} .
+        run: docker build -t wordpress-app:dev-${{github.run_number}} .
       - name: Save image tag
         run: echo "${{github.run_number}}" > image_tag.txt
       - name: Upload artifact
@@ -21,8 +25,8 @@ jobs:
           export AWS_SECRET_ACCESS_KEY=${{secrets.AWS_SECRET_ACCESS_KEY}}
           export AWS_DEFAULT_REGION=${{vars.AWS_DEFAULT_REGION}}
           aws ecr get-login-password --region ${{vars.AWS_DEFAULT_REGION}} | docker login --username AWS --password-stdin ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${{vars.AWS_DEFAULT_REGION}}.amazonaws.com
-          docker tag wordpress-app:${{github.run_number}} ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${{vars.AWS_DEFAULT_REGION}}.amazonaws.com/wordpress-app:${{github.run_number}}
-          docker push ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${{vars.AWS_DEFAULT_REGION}}.amazonaws.com/wordpress-app:${{github.run_number}}
+          docker tag wordpress-app:dev-${{github.run_number}} ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${{vars.AWS_DEFAULT_REGION}}.amazonaws.com/wordpress-app:dev-${{github.run_number}}
+          docker push ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${{vars.AWS_DEFAULT_REGION}}.amazonaws.com/wordpress-app:dev-${{github.run_number}}
       - name: Clean up images
         run: docker rmi -f $(docker images -q --filter "reference=*wordpress*")
 
