@@ -4,6 +4,11 @@ on:
     branches:
       - development
 
+permissions:
+  contents: read
+  packages: write
+  actions: write 
+
 jobs:
   build:
     runs-on: self-hosted
