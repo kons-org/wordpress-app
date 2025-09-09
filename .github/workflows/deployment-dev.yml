@@ -45,7 +45,7 @@ jobs:
     runs-on: self-hosted
     needs: change_image_tag
     steps:
-      - name: Write SSH Private Key to File 
+      - name: Write SSH Private Key To File 
         run: |
           mkdir -p ~/.ssh
           echo "${{secrets.SSH_PRIVATE_KEY}}" > ~/.ssh/private_key.pem
