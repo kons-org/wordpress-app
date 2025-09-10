@@ -57,8 +57,9 @@ jobs:
       - name: SSH and Deploy on Server
         run: |
           ssh -i ~/.ssh/private_key.pem ubuntu@${{secrets.DEPLOYMENT_SERVER_IP}} << 'EOF'
-            cd deployment
-            git pull origin master
+            cd wordpress-app-deployment
+            git fetch origin
+            git reset --hard origin/master
             ./start.sh
           EOF
 
