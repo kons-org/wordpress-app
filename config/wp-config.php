@@ -90,8 +90,8 @@ define( 'WP_DEBUG_DISPLAY', true );
 
 /* Add any custom values between this line and the "stop editing" line. */
 
-define('WP_HOME', 'https://wordpresstrain.ddns.net');
-define('WP_SITEURL', 'https://wordpresstrain.ddns.net');
+define('WP_HOME', getenv("WORDPRESS_URL"));
+define('WP_SITEURL', getenv("WORDPRESS_URL"));
 
 if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
     $_SERVER['HTTPS'] = 'on';
