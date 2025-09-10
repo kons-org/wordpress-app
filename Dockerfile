@@ -18,6 +18,7 @@ WORKDIR /var/www/html/
 COPY ./config/default.conf /etc/nginx/conf.d/default.conf
 COPY ./config/nginx.conf /etc/nginx/nginx.conf
 COPY ./config/wp-config.php /var/www/html/wp-config.php
+COPY ./config/www.conf /etc/php/8.1/fpm/pool.d/www.conf
 COPY ./src/wordpress/. .
 
 RUN chown -R www-data:www-data /var/www/html
