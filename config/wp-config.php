@@ -20,13 +20,13 @@
 
 // ** Database settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-define( 'DB_NAME', $_ENV['WORDPRESS_DB_NAME']);
+define( 'DB_NAME', $_SERVER['WORDPRESS_DB_NAME']);
 
 /** Database username */
-define( 'DB_USER', $_ENV['WORDPRESS_DB_USER']);
+define( 'DB_USER', $_SERVER['WORDPRESS_DB_USER']);
 
 /** Database password */
-define( 'DB_PASSWORD', $_ENV['WORDPRESS_DB_PASSWORD']);
+define( 'DB_PASSWORD', $_SERVER['WORDPRESS_DB_PASSWORD']);
 
 /** Database hostname */
 define( 'DB_HOST', 'db' );
@@ -90,8 +90,8 @@ define( 'WP_DEBUG_DISPLAY', true );
 
 /* Add any custom values between this line and the "stop editing" line. */
 
-define('WP_HOME', $_ENV["WORDPRESS_URL"]);
-define('WP_SITEURL', $_ENV["WORDPRESS_URL"]);
+define('WP_HOME', $_SERVER["WORDPRESS_URL"]);
+define('WP_SITEURL', $_SERVER["WORDPRESS_URL"]);
 
 if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
     $_SERVER['HTTPS'] = 'on';
