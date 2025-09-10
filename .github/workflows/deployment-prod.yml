@@ -29,13 +29,13 @@ jobs:
         run: |
           echo "The Image Tag is: $IMAGE_TAG"
           cd deployment_repo
-          sed -i -E "s#(image: ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${{vars.AWS_DEFAULT_REGION}}.amazonaws.com/wordpress-app:)[0-9]+#\1$IMAGE_TAG#" docker-compose.yml
+          sed -i -E "s#(image: ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${{vars.AWS_DEFAULT_REGION}}.amazonaws.com/wordpress-app:)[0-9]+#\1$IMAGE_TAG#" docker-compose-prod.yml
           git add docker-compose-prod.yml
           git status --porcelain | wc -l
           if [[ $(git status --porcelain | wc -l) -gt 0 ]]; then
             git config --global user.name "Deployment [bot]"
             git config --global user.email "${{vars.EMAIL}}"
-            git commit -m "Updated docker-compose.yml image tag to $IMAGE_TAG"
+            git commit -m "Updated docker-compose-prod.yml image tag to $IMAGE_TAG"
             git push
           else 
             echo "No changes to commit"
